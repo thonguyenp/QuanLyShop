@@ -1,0 +1,77 @@
+﻿@model IPagedList<QuanLyShop.Models.EF.ProductImage>
+@using X.PagedList
+@using X.PagedList.Mvc.Core
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    int stt = (Model.PageNumber - 1) * Model.PageSize + 1;
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+<form method="get" action="@Url.Action("Index")">
+    <div class="form-group">
+        <input type="text" name="txtSearch" value="@ViewBag.txtSearch" placeholder="Search by product title or alias..." class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-primary">Search</button>
+</form>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Image
+            </th>
+            <th>
+                IsDefault
+            </th>
+            <th>
+                Product Title
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <img src="@item.Image" width="250" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsDefault)
+                </td>
+                <td>
+                    @item.Product?.Title 
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div class="product_sorting_container product_sorting_container_top">
+    <div class="pages d-flex flex-row align-items-center">
+        @Html.PagedListPager(Model, page => Url.Action("Index", new { page, pageSize = ViewBag.pageSize }),
+                 new PagedListRenderOptions
+        {
+            DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+            DisplayLinkToNextPage = PagedListDisplayMode.Always,
+            DisplayLinkToFirstPage = PagedListDisplayMode.Never,
+            DisplayLinkToLastPage = PagedListDisplayMode.Never,
+            LinkToPreviousPageFormat = "«",
+            LinkToNextPageFormat = "»",
+            ContainerDivClasses = new[] { "pagination" },
+        }
+                 )
+    </div>
+</div>

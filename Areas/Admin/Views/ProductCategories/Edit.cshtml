@@ -1,0 +1,98 @@
+﻿@model QuanLyShop.Models.EF.ProductCategory
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Edit</h1>
+
+<h4>ProductCategory</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Alias" class="control-label"></label>
+                <input asp-for="Alias" class="form-control"/>
+                <span asp-validation-for="Alias" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="Image">Ảnh hiện tại:</label>
+                @if (!string.IsNullOrEmpty(Model.Icon))
+                {
+                    <div>
+                        <img src="@Model.Icon" alt="Ảnh sản phẩm" style="max-width: 200px; max-height: 200px;" />
+                    </div>
+                }
+                else
+                {
+                    <p>Chưa có ảnh nào được tải lên.</p>
+                }
+            </div>
+            <input type="hidden" asp-for="Icon" />
+            <div class="form-group">
+                <label for="ImageFile">Thay đổi ảnh:</label>
+                <input id="ImageFile" name="ImageFile" class="form-control-file" type="file" />
+            </div>
+            <div class="form-group">
+                <label asp-for="SeoTitle" class="control-label"></label>
+                <input asp-for="SeoTitle" class="form-control" />
+                <span asp-validation-for="SeoTitle" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SeoDescription" class="control-label"></label>
+                <input asp-for="SeoDescription" class="form-control" />
+                <span asp-validation-for="SeoDescription" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SeoKeywords" class="control-label"></label>
+                <input asp-for="SeoKeywords" class="form-control" />
+                <span asp-validation-for="SeoKeywords" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CreatedBy" class="control-label"></label>
+                <input asp-for="CreatedBy" class="form-control" />
+                <span asp-validation-for="CreatedBy" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CreatedDate" class="control-label"></label>
+                <input asp-for="CreatedDate" class="form-control" />
+                <span asp-validation-for="CreatedDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ModifiedDate" class="control-label"></label>
+                <input asp-for="ModifiedDate" class="form-control" />
+                <span asp-validation-for="ModifiedDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Modifiedby" class="control-label"></label>
+                <input asp-for="Modifiedby" class="form-control" />
+                <span asp-validation-for="Modifiedby" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@* @section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+} *@

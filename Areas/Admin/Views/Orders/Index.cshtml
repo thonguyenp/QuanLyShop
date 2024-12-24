@@ -1,0 +1,95 @@
+﻿@model IPagedList<QuanLyShop.Models.EF.Order>
+@using X.PagedList
+@using X.PagedList.Mvc.Core
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    // Khởi tạo biến đếm số thứ tự dựa trên trang hiện tại
+    int stt = (Model.PageNumber - 1) * Model.PageSize + 1;
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+               Code
+            </th>
+            <th>
+                CustomerName
+            </th>
+            <th>
+                Phone
+            </th>
+            <th>
+                Email
+            </th>
+            <th>
+                Tổng tiền
+            </th>
+            <th>
+                Type Payment
+            </th>
+            <th>
+                CreatedDate
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Code)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CustomerName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Phone)
+            </td>
+            
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalAmount)
+            </td>
+
+            @*TypePayment == 1 tức là Dùng COD, 2 là trả bằng thẻ trước*@
+            <td>@(item.TypePayment == 1 ? "Chờ thanh toán" : "Đã thanh toán")</td>
+            
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedDate)
+            </td>
+            
+            <td>
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a> |
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="ViewProduct" asp-route-id="@item.Id">Xem chi tiết</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+<div>
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }),
+            new PagedListRenderOptions
+    {
+        DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+        DisplayLinkToNextPage = PagedListDisplayMode.Always,
+        DisplayLinkToFirstPage = PagedListDisplayMode.Never,
+        DisplayLinkToLastPage = PagedListDisplayMode.Never,
+        LinkToPreviousPageFormat = "«",
+        LinkToNextPageFormat = "»",
+        ContainerDivClasses = new[] { "pagination" },
+    }
+            )
+</div>

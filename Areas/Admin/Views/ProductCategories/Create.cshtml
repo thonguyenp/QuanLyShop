@@ -1,0 +1,129 @@
+﻿@model QuanLyShop.Models.EF.ProductCategory
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Create</h1>
+
+<h4>ProductCategory</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Alias" class="control-label"></label>
+                <input asp-for="Alias" class="form-control" value="Không điền vào" readonly />
+                <span asp-validation-for="Alias" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Icon" class="control-label"></label>
+                <div class="input-group mb-3">
+                    @Html.TextBoxFor(x => x.Icon, new { @id = "txtImage", @class = "form-control" })
+                    <input type="button" value="Tải ảnh" />
+                </div>
+                <span asp-validation-for="Icon" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SeoTitle" class="control-label"></label>
+                <input asp-for="SeoTitle" class="form-control" />
+                <span asp-validation-for="SeoTitle" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SeoDescription" class="control-label"></label>
+                <input asp-for="SeoDescription" class="form-control" />
+                <span asp-validation-for="SeoDescription" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SeoKeywords" class="control-label"></label>
+                <input asp-for="SeoKeywords" class="form-control" />
+                <span asp-validation-for="SeoKeywords" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CreatedBy" class="control-label"></label>
+                <input asp-for="CreatedBy" class="form-control" />
+                <span asp-validation-for="CreatedBy" class="text-danger"></span>
+            </div>
+            @* <div class="form-group">
+                <label asp-for="CreatedDate" class="control-label"></label>
+                <input asp-for="CreatedDate" class="form-control" />
+                <span asp-validation-for="CreatedDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ModifiedDate" class="control-label"></label>
+                <input asp-for="ModifiedDate" class="form-control" />
+                <span asp-validation-for="ModifiedDate" class="text-danger"></span>
+            </div> *@
+            <div class="form-group">
+                <label asp-for="Modifiedby" class="control-label"></label>
+                <input asp-for="Modifiedby" class="form-control" />
+                <span asp-validation-for="Modifiedby" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@* @section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+} *@
+section scripts {
+<script>
+    ClassicEditor
+        .create(document.querySelector('#txtDetail'), {
+            ckfinder: {
+                uploadUrl: '/ckfinder/core/connector/aspx?command=QuickUpload&type=Files&responseType=json'
+            },
+            toolbar: ['ckfinder', 'imageUpload', '|', 'heading', '|', 'bold', 'italic', '|', 'undo', 'redo']
+        })
+        .then(editor => {
+            console.log('Editor was initialized', editor);
+        })
+        .catch(error => {
+            console.error(error.stack);
+        });
+
+    document.getElementById('txtImage').nextElementSibling.addEventListener('click', function (event) {
+        event.preventDefault(); // Prevent default button behavior
+        CKFinder.popup({
+            chooseFiles: true, // Enable file selection
+            onInit: function (finder) {
+                finder.on('files:choose', function (evt) {
+                    const file = evt.data.files.first();
+                    const url = file.getUrl();
+
+                    // Update the input field with the selected image URL
+                    document.getElementById('txtImage').value = url;
+                });
+
+                finder.on('file:choose:resizedImage', function (evt) {
+                    const url = evt.data.resizedUrl;
+
+                    // Update the input field with the resized image URL
+                    document.getElementById('txtImage').value = url;
+                });
+            }
+        });
+    });
+
+
+</script>
+}

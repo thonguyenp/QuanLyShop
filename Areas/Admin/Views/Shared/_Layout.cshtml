@@ -1,0 +1,342 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <!--Fonts-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <!--Font Awesome-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css" integrity="sha512-5Hs3dF2AEPkpNAR7UiOHba+lRSJNeM2ECkwxUIxC1Q/FLycGTbNapWXB4tP889k5T5Ju8fs4b1P5z/iB4nMfSQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!--OverlayScrollbars-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.10.0/styles/overlayscrollbars.min.css">
+    <!--Bootstrap-->
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <!--Bootstrap Icons-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!--AdminLTE-->
+    <link rel="stylesheet" href="~/lib/adminlte/dist/css/adminlte.css">
+    <script src="https://cdn.ckeditor.com/ckeditor5/29.2.0/classic/ckeditor.js"></script>
+    <script src="https://ckeditor.com/apps/ckfinder/3.5.1/ckfinder.js"></script>
+</head>
+<style>
+    /* CSS dành riêng cho file này */
+    .pagination {
+        display: flex;
+        list-style-type: none;
+        padding: 0;
+    }
+
+        .pagination li {
+            margin: 0 5px;
+        }
+
+            .pagination li a,
+            .pagination li span {
+                padding: 10px 15px;
+                text-decoration: none;
+                border: 1px solid #ddd;
+                border-radius: 5px;
+                color: #333;
+            }
+
+            .pagination li.active span {
+                background-color: #007bff;
+                color: white;
+                border-color: #007bff;
+            }
+
+            .pagination li a:hover {
+                background-color: #ddd;
+            }
+
+    .app-main {
+        padding-left: 20px;
+    }
+
+        .app-main .row {
+            display: block;
+        }
+
+        .app-main .form-group {
+            display: inline;
+        }
+
+
+
+    a button {
+        text-decoration: none; /* Loại bỏ gạch chân */
+    }
+
+    a {
+        text-decoration: none; /* Loại bỏ gạch chân khỏi link */
+    }
+
+        a:hover {
+            text-decoration: none; /* Đảm bảo không có underline khi hover */
+        }
+
+</style>
+<body class="layout-fixed sidebar-expand-lg sidebar-mini bg-body-tertiary">
+    <!--begin::App Wrapper-->
+    <div class="app-wrapper">
+        <!--begin::Header-->
+        <nav class="app-header navbar navbar-expand bg-body">
+            <!--begin::Container-->
+            <div class="container-fluid">
+                <!--begin::Start Navbar Links-->
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link"
+                           data-lte-toggle="sidebar"
+                           href="#"
+                           role="button">
+                            <i class="bi bi-list"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item d-none d-md-block">
+                        <a asp-area="" asp-controller="Home" asp-action="Index" class="nav-link">Home</a>
+                    </li>
+                </ul>
+                <!--end::Start Navbar Links-->
+                <!--begin::End Navbar Links-->
+                <ul class="navbar-nav ms-auto">
+                    <!--begin::Fullscreen Toggle-->
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-lte-toggle="fullscreen">
+                            <i data-lte-icon="maximize" class="bi bi-arrows-fullscreen"></i>
+                            <i data-lte-icon="minimize"
+                               class="bi bi-fullscreen-exit"
+                               style="display: none"></i>
+                        </a>
+                    </li>
+                    <!--end::Fullscreen Toggle-->
+                    <!--begin::User Menu Dropdown-->
+                    <li class="nav-item dropdown user-menu">
+                        <a href="#"
+                           class="nav-link dropdown-toggle"
+                           data-bs-toggle="dropdown">
+                            @* <img src="~/~/images/QuanLi/logo.png"
+                                 class="user-image rounded-circle shadow"
+                                 alt="User Image" /> *@
+                            <span class="d-none d-md-inline">Nguyễn Phước Thọ</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
+                            <!--begin::User Image-->
+                            <li class="user-header text-bg-primary">
+                                <img src="~/~/images/QuanLi/logo.png"
+                                     class="rounded-circle shadow"
+                                     alt="User Image" />
+                                <p>
+                                    Nguyễn Phước Thọ
+                                    <small>Member since Dec. 2024</small>
+                                </p>
+                            </li>
+                            <!--end::User Image-->
+                            <!--begin::Menu Body-->
+                            <li class="user-body">
+                                <!--begin::Row-->
+                                <div class="row">
+                                    <div class="col-4 text-center">
+                                        <a href="#">Followers</a>
+                                    </div>
+                                    <div class="col-4 text-center"><a href="#">Sales</a></div>
+                                    <div class="col-4 text-center"><a href="#">Friends</a></div>
+                                </div>
+                                <!--end::Row-->
+                            </li>
+                            <!--end::Menu Body-->
+                            <!--begin::Menu Footer-->
+                            <li class="user-footer">
+                                <a href="#" class="btn btn-default btn-flat">Profile</a>
+                                <a href="#" class="btn btn-default btn-flat float-end">Sign out</a>
+                            </li>
+                            <!--end::Menu Footer-->
+                        </ul>
+                    </li>
+                    <!--end::User Menu Dropdown-->
+                </ul>
+                <!--end::End Navbar Links-->
+            </div>
+            <!--end::Container-->
+        </nav>
+        <!--end::Header-->
+        <!--begin::Sidebar-->
+        <aside class="app-sidebar bg-body-secondary shadow" data-bs-theme="dark">
+            <!--begin::Sidebar Brand-->
+            <div class="sidebar-brand">
+                <!--begin::Brand Link-->
+                <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="brand-link">
+                    <!--begin::Brand Image-->@* 
+                    <img src="~/~/images/QuanLi/logo.png"
+                         alt="logo"
+                         class="brand-image rounded-circle shadow" /> *@
+                    <!--end::Brand Image-->
+                    <!--begin::Brand Text-->
+                    <span class="brand-text fw-light fw-bold">Admin</span>
+                    <!--end::Brand Text-->
+                </a>
+                <!--end::Brand Link-->
+            </div>
+            <!--end::Sidebar Brand-->
+            <!--begin::Sidebar Wrapper-->
+            <div class="sidebar-wrapper">
+                <nav class="mt-2">
+                    <!--begin::Sidebar Menu-->
+                    <ul class="nav sidebar-menu flex-column"
+                        data-lte-toggle="treeview"
+                        role="menu"
+                        data-accordion="false">
+                        @* <li>
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon bi bi-gear-fill"></i>
+                                <p>
+                                    Quản Lí
+                                    <i class="nav-arrow bi bi-chevron-right"></i>
+                                </p>
+                            </a>
+                        </li> *@
+                        <li class="nav-item fw-bold">
+                            <a asp-controller="Categories" asp-action="Index" class="nav-link">
+                                <i class="nav-icon bi bi-person-fill"></i>
+                                <p>Thể loại</p>
+                            </a>
+                        </li>
+                        <li class="nav-item fw-bold">
+                            <a asp-controller="News" asp-action="Index" class="nav-link">
+                                <i class="nav-icon bi bi-person-fill-gear"></i>
+                                <p>Tin tức</p>
+                            </a>
+                        </li>
+                        <li class="nav-item fw-bold">
+                            <a asp-controller="Posts" asp-action="Index" class="nav-link">
+                                <i class="nav-icon bi bi-box-fill"></i>
+                                <p>Bài Đăng</p>
+                            </a>
+                        </li>
+                        @*Muốn đặt nhiều lv thì bên trong thẻ li đặt thẻ ul*@
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon bi bi-gear-fill"></i>
+                                <p>
+                                    Sản phẩm
+                                    <i class="nav-arrow bi bi-chevron-right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a asp-controller="ProductCategories" asp-action="Index" class="nav-link">
+                                        <i class="far fa-dot-circle nav-icon"></i>
+                                        <p>Loại Sản Phẩm</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a asp-controller="Products" asp-action="Index" class="nav-link">
+                                        <i class="far fa-dot-circle nav-icon"></i>
+                                        <p>Sản phẩm</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a asp-controller="ProductImages" asp-action="Index" class="nav-link">
+                                        <i class="far fa-dot-circle nav-icon"></i>
+                                        <p>Ảnh Sản phẩm</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item fw-bold">
+                            <a asp-controller="Orders" asp-action="Index" class="nav-link">
+                                <i class="nav-icon bi bi-cash"></i>
+                                <p>Hóa Đơn</p>
+                            </a>
+                        </li>
+                        <li class="nav-item fw-bold">
+                            <a asp-controller="Statistical" asp-action="Index" class="nav-link">
+                                <i class="nav-icon bi bi-cash-stack"></i>
+                                <p>Thống kê</p>
+                            </a>
+                        </li>
+                        <li class="nav-item fw-bold">
+                            <a asp-controller="Role" asp-action="Index" class="nav-link">
+                                <i class="nav-icon fa-solid fa-warehouse"></i>
+                                <p>Quyền</p>
+                            </a>
+                        </li>
+                        <li class="nav-item fw-bold">
+                            <form asp-controller="Account" asp-action="Logout" method="post" id="logoutForm" class="nav-link">
+                                <button type="submit" class="btn btn-link nav-link" style="border: none; background: none; padding: 0; color: orangered">
+                                    Log out
+                                </button>
+                            </form>
+                        </li>
+                    </ul>
+                    
+                    <!--end::Sidebar Menu-->
+                </nav>
+            </div>
+            <!--end::Sidebar Wrapper-->
+        </aside>
+        <!--end::Sidebar-->
+        <!--begin::App Main-->
+        <main class="app-main">
+            @RenderBody()
+        </main>
+        <!--end::App Main-->
+        <!--begin::Footer-->
+        <footer class="app-footer">
+            <!--begin::To the end-->
+            <div class="float-end d-none d-sm-inline">Anything you want</div>
+            <!--end::To the end-->
+            <!--begin::Copyright-->
+            <strong>
+                Copyright &copy; 2024&nbsp;
+                <a href="#" class="text-decoration-none">Nguyễn Phước Thọ</a>.
+            </strong>
+            All rights reserved.
+            <!--end::Copyright-->
+        </footer>
+        <!--end::Footer-->
+    </div>
+    <!--end::App Wrapper-->
+    <!--begin::Script-->
+    <!--Overlayscrollbars-->
+    <script src="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.10.0/browser/overlayscrollbars.browser.es6.min.js"></script>
+    <!--Jquery-->
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <!--Bootstrap-->
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <!--AdminLTE-->
+    <script src="~/lib/adminlte/dist/js/adminlte.js"></script>
+    <!--DateRangePicker-->
+    <script src="~/Content/clients/plugins/daterangepicker/daterangepicker.js"></script>
+
+    <!--begin::OverlayScrollbars Configure-->
+    <script>
+        const SELECTOR_SIDEBAR_WRAPPER = ".sidebar-wrapper";
+        const Default = {
+            scrollbarTheme: "os-theme-light",
+            scrollbarAutoHide: "leave",
+            scrollbarClickScroll: true,
+        };
+        document.addEventListener("DOMContentLoaded", function () {
+            const sidebarWrapper = document.querySelector(SELECTOR_SIDEBAR_WRAPPER);
+            if (
+                sidebarWrapper &&
+                typeof OverlayScrollbarsGlobal?.OverlayScrollbars !== "undefined"
+            ) {
+                OverlayScrollbarsGlobal.OverlayScrollbars(sidebarWrapper, {
+                    scrollbars: {
+                        theme: Default.scrollbarTheme,
+                        autoHide: Default.scrollbarAutoHide,
+                        clickScroll: Default.scrollbarClickScroll,
+                    },
+                });
+            }
+        });
+    </script>
+    <!--end::OverlayScrollbars Configure-->
+    <!--end::Script-->
+    @RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

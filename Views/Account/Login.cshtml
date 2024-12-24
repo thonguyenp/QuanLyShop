@@ -1,0 +1,54 @@
+﻿@model QuanLyShop.Models.LoginViewModel
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link rel="stylesheet" type="text/css" href="~/Content/assets/styles/main_styles.css">
+
+
+<div class="card-body login-card-body" style="margin-top:160px" col-md-9>
+    <p class="login-box-msg">Sign in to start your session</p>
+
+    <form asp-action="Login" asp-controller="Account" method="post">
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        <input type="hidden" name="returnUrl" value="@ViewBag.ReturnUrl" />
+        <div class="input-group mb-3">
+            @Html.TextBoxFor(x => x.UserName, new { @class = "form-control", @placeholder = "Tài khoản/Email" })
+            <div class="input-group-append">
+                <div class="input-group-text">
+                    <span class="fas fa-envelope"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="input-group mb-3">
+            @Html.TextBoxFor(x => x.Password, new { @class = "form-control", @placeholder = "Mật khẩu" })
+            <div class="input-group-append">
+                <div class="input-group-text">
+                    <span class="fas fa-lock"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-8">
+                <div class="icheck-primary">
+                    <input asp-for="RememberMe" type="checkbox" />
+                    <label for="remember">
+                        Remember Me
+                    </label>
+                </div>
+            </div>
+            <!-- /.col -->
+            <div class="col-4">
+                <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+            </div>
+            <!-- /.col -->
+        </div>
+    </form>
+
+    <p class="mb-1">
+        <a href="/account/ForgotPassword">I forgot my password</a>
+    </p>
+</div>

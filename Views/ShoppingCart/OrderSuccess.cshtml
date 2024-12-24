@@ -1,0 +1,43 @@
+﻿@model QuanLyShop.Models.OrderViewModel
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+
+<style>
+    .error {
+        color: red;
+    }
+</style>
+<link rel="stylesheet" type="text/css" href="~/Content/assets/styles/categories_styles.css">
+<link rel="stylesheet" type="text/css" href="~/Content/assets/styles/categories_responsive.css">
+<div class="container product_section_container">
+    <div class="row">
+        <div class="col product_section clearfix">
+
+            <!-- Breadcrumbs -->
+
+            <div class="breadcrumbs d-flex flex-row align-items-center">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li class="active"><a href="/"><i class="fa fa-angle-right" aria-hidden="true"></i>Giỏ hàng</a></li>
+                </ul>
+            </div>
+
+            <!-- Sidebar -->
+            <!-- Main Content -->
+            <hr />
+            <h2>Đặt hàng thành công</h2>
+            <p>Cảm ơn bạn đã đặt hàng tại cửa hàng của chúng tôi!</p>
+            <p>Mã đơn hàng của bạn là: <strong>@ViewBag.OrderId</strong></p>
+            <p>Chúng tôi sẽ liên hệ với bạn để xác nhận đơn hàng trong thời gian sớm nhất.</p>
+            <a href="@Url.Action("Index", "Home")">Quay lại trang chủ</a>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script src="~/content/assets/js/categories_custom.js"></script>
+}

@@ -1,0 +1,67 @@
+﻿@model QuanLyShop.Models.CreateAccountViewModel
+@{
+    ViewBag.Title = "Profile";
+}
+<link rel="stylesheet" type="text/css" href="~/Content/assets/styles/main_styles.css">
+<!-- Slider -->
+<style>
+    .news_section_container {
+        margin-top: 180px;
+    }
+
+    .row-item-new {
+        margin-bottom: 20px;
+    }
+
+    .title-news {
+        font-size: 24px;
+        border-bottom: 1px solid;
+        padding: 15px 0;
+        margin-bottom: 25px;
+    }
+
+    .img-box img {
+        max-width: 100%;
+        max-height: 100%;
+    }
+</style>
+<div class="container news_section_container">
+    <div class="row">
+        <div class="col-md-12">
+            <form asp-action="PostProfile" asp-controller="Account" method="post">
+                @Html.AntiForgeryToken()
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div class="form-group">
+                    <label for="FullName">Full Name</label>
+                    <input type="text" id="FullName" name="FullName" class="form-control" value="@Model.FullName" />
+                </div>
+
+                <div class="form-group">
+                    <label for="UserName">Username</label>
+                    <input type="text" id="UserName" name="UserName" class="form-control" value="@Model.UserName" readonly />
+                </div>
+
+                <div class="form-group">
+                    <label for="Phone">Phone</label>
+                    <input type="text" id="Phone" name="Phone" class="form-control" value="@Model.Phone" />
+                </div>
+
+                <div class="form-group">
+                    <label for="Email">Email</label>
+                    <input type="text" id="Email" name="Email" class="form-control" value="@Model.Email" readonly />
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-success">Cập nhật</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="col-md-12">
+            @* Uncomment this section if you plan to include the order history view *@
+            @* @Html.Action("LichSuDonHang", "Review") *@
+            @await Component.InvokeAsync("OrderHistory")
+        </div>
+    </div>
+</div>

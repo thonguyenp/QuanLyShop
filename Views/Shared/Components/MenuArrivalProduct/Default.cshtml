@@ -1,0 +1,46 @@
+﻿@model IEnumerable<QuanLyShop.Models.EF.Product>
+
+<style>
+    .product_image img {
+        width: 300px; /* Chiều rộng cố định */
+        height: 200px; /* Chiều cao cố định */
+        object-fit: cover; /* Đảm bảo hình ảnh được cắt gọn nhưng vẫn giữ đúng tỷ lệ */
+        border-radius: 5px; /* Bo góc (tuỳ chọn) */
+    }
+</style>
+
+@if (Model != null && Model.Any())
+{
+    foreach (var item in Model)
+    {
+        <!-- Product 1 -->
+        var defaultImage = item.ProductImage?.FirstOrDefault(x => x.IsDefault)?.Image ?? "default-image.jpg"; // 'default-image.jpg' là hình ảnh fallback nếu không tìm thấy hình mặc định.
+        <div class="product-item @item.ProductCategory?.Alias">
+            <div class="product discount product_filter">
+                <div class="product_image">
+                    <img src="@defaultImage" alt="@item.Title">
+                </div>
+                <div data-id="@item.Id" class="favorite favorite_left"></div>
+                @if (item.PriceSale > 0)
+                {
+                    <div class="product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center"><span>sale</span></div>
+                }
+                @* <div class="product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center"><span>-$20</span></div>*@
+                <div class="product_info">
+                    <h6 class="product_name"><a href="/chi-tiet/@item.Alias/@(item.Id)">@item.Title</a></h6>
+                    @if (item.PriceSale > 0)
+                    {
+                        <div class="product_price">@item.PriceSale VND<span>@item.Price VND</span></div>
+
+                    }
+                    else
+                    {
+                        <div class="product_price">@item.Price VND</div>
+                    }
+                </div>
+            </div>
+            <div class="red_button add_to_cart_button"><a href="#" class="btnAddToCart" data-id="@item.Id">add to cart</a></div>
+        </div>
+    }
+}
+@*Đã in ra thành công*@
