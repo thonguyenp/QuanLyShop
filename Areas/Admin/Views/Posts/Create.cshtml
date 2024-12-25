@@ -11,7 +11,7 @@
 <hr />
 <div class="row">
     <div class="col-md-12">
-        <form asp-action="Create">
+        <form asp-action="Create" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Title" class="control-label"></label>
@@ -35,14 +35,10 @@
                 <span asp-validation-for="Detail" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Image" class="control-label"></label>
-                @* <input asp-for="Image" class="form-control" /> *@
-                <div class="input-group mb-3">
-                    @Html.TextBoxFor(x => x.Image, new { @id = "txtImage", @class = "form-control" })
-                    <input type="button" value="Tải ảnh" />
-                </div>
-                <span asp-validation-for="Image" class="text-danger"></span>
+                <label for="Image">Ảnh bài đăng:</label>
+                <input id="Image" name="ImageFile" class="form-control-file" type="file" />
             </div>
+            <input type="hidden" asp-for="Image" />
             <div class="form-group">
                 <label asp-for="CategoryId" class="control-label"></label>
                 <select asp-for="CategoryId" class ="form-control" asp-items="ViewBag.CategoryId"></select>

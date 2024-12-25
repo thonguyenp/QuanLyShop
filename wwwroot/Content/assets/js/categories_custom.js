@@ -392,8 +392,8 @@ jQuery(document).ready(function($)
 			{
 				range: true,
 				min: 0,
-				max: 1000000,
-				values: [0, 500000],
+				max: 5000,
+				values: [0, 5000],
 				slide: function (event, ui) {
 					$("#amount").val("đ" + ui.values[0] + " - đ" + ui.values[1]);
 					$('#FromAmount').val(ui.values[0]);

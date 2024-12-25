@@ -1,5 +1,6 @@
-﻿@model IEnumerable<QuanLyShop.Models.EF.News>
-
+﻿@model IPagedList<QuanLyShop.Models.EF.News>
+@using X.PagedList
+@using X.PagedList.Mvc.Core
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
@@ -12,100 +13,109 @@
         <button type="submit" class="btn btn-primary">Create New</button>
     </a>
 </p>
-<table class="table">
+
+<form method="get" action="">
+    <div class="input-group mb-3">
+        <input type="text" name="txtSearch" class="form-control" placeholder="Nhập Thông Tin" value="@ViewBag.txtSearch" />
+        <button class="btn btn-outline-primary" type="submit">Tìm kiếm</button>
+    </div>
+</form>
+
+<table class="table" bgcolor="white">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Title)
+                Title
             </th>
             @* <th>
-                @Html.DisplayNameFor(model => model.Alias)
+            Alias)
             </th> *@
             <th>
-                @Html.DisplayNameFor(model => model.Description)
+                Description
             </th>
             @* <th>
-                @Html.DisplayNameFor(model => model.Detail)
+            Detail)
             </th> *@
-             <th>
-                @Html.DisplayNameFor(model => model.Image)
+            <th>
+                Image
             </th>
             @*<th>
-                @Html.DisplayNameFor(model => model.SeoTitle)
+            SeoTitle)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.SeoDescription)
+            SeoDescription)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.SeoKeywords)
+            SeoKeywords)
             </th> *@
             <th>
-                @Html.DisplayNameFor(model => model.IsActive)
+                IsActive
             </th>
             @* <th>
-                @Html.DisplayNameFor(model => model.Category)
+            Category)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CreatedBy)
+            CreatedBy)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CreatedDate)
+            CreatedDate)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ModifiedDate)
+            ModifiedDate)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Modifiedby)
+            Modifiedby)
             </th> *@
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            @* <td>
-                @Html.DisplayFor(modelItem => item.Alias)
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td style="max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                @* <td>
+            @Html.DisplayFor(modelItem => item.Alias)
             </td> *@
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            @* <td>
-                @Html.DisplayFor(modelItem => item.Detail)
+                <td style="max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                @* <td>
+            @Html.DisplayFor(modelItem => item.Detail)
             </td> *@
-            <td>
-                 <img src="@item.Image" width="50" />
-            </td>
-            @*<td>
-                @Html.DisplayFor(modelItem => item.SeoTitle)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SeoDescription)
+                <td>
+                    <img src="@item.Image" width="50" />
+                </td>
+                @*<td>
+            @Html.DisplayFor(modelItem => item.SeoTitle)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.SeoKeywords)
+            @Html.DisplayFor(modelItem => item.SeoDescription)
+            </td>
+            <td>
+            @Html.DisplayFor(modelItem => item.SeoKeywords)
             </td> *@
-            <td>
-                @Html.DisplayFor(modelItem => item.IsActive)
-            </td>
-            @* <td>
-                @Html.DisplayFor(modelItem => item.Category.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreatedBy)
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsActive)
+                </td>
+                @* <td>
+            @Html.DisplayFor(modelItem => item.Category.Title)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.CreatedDate)
+            @Html.DisplayFor(modelItem => item.CreatedBy)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ModifiedDate)
+            @Html.DisplayFor(modelItem => item.CreatedDate)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Modifiedby)
+            @Html.DisplayFor(modelItem => item.ModifiedDate)
+            </td>
+            <td>
+            @Html.DisplayFor(modelItem => item.Modifiedby)
             </td> *@
-            <td>
+                <td>
                     <a asp-action="Edit" asp-route-id="@item.Id">
                         <button type="submit" class="btn btn-primary">Edit</button>
                     </a>
@@ -115,8 +125,23 @@
                     <a asp-action="Delete" asp-route-id="@item.Id">
                         <button type="submit" class="btn btn-danger">Delete</button>
                     </a>
-            </td>
-        </tr>
-}
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+
+<div>
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page, pageSize = ViewBag.pageSize, txtSearch = ViewBag.txtSearch }),
+            new PagedListRenderOptions
+    {
+        DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+        DisplayLinkToNextPage = PagedListDisplayMode.Always,
+        DisplayLinkToFirstPage = PagedListDisplayMode.Never,
+        DisplayLinkToLastPage = PagedListDisplayMode.Never,
+        LinkToPreviousPageFormat = "«",
+        LinkToNextPageFormat = "»",
+        ContainerDivClasses = new[] { "pagination" },
+    }
+            )
+</div>

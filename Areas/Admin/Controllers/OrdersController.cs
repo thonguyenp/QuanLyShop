@@ -32,7 +32,7 @@ namespace QuanLyShop.Areas.Admin.Controllers
             // Tìm kiếm nếu có từ khóa
             if (!string.IsNullOrEmpty(txtSearch))
             {
-                items = items.Where(x => x.CustomerName.Contains(txtSearch) || x.Phone.Contains(txtSearch));
+                items = items.Where(x => x.CustomerName.Contains(txtSearch) || x.Phone.Contains(txtSearch) || x.Email.Contains(txtSearch));
             }
 
             // Sắp xếp và chuyển đổi thành danh sách
@@ -43,7 +43,7 @@ namespace QuanLyShop.Areas.Admin.Controllers
 
             // Truyền từ khóa tìm kiếm hiện tại vào ViewBag
             ViewBag.txtSearch = txtSearch;
-
+            //ViewBag.pageSize = pageSize;
             return View(pageList);
         }
 
@@ -74,26 +74,26 @@ namespace QuanLyShop.Areas.Admin.Controllers
         }
 
         // GET: Admin/Orders/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
+        //public IActionResult Create()
+        //{
+        //    return View();
+        //}
 
-        // POST: Admin/Orders/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Code,CustomerName,Phone,Address,Email,TotalAmount,Quantity,TypePayment,CustomerId,Status,CreatedBy,CreatedDate,ModifiedDate,Modifiedby")] Order order)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(order);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(order);
-        }
+        //// POST: Admin/Orders/Create
+        //// To protect from overposting attacks, enable the specific properties you want to bind to.
+        //// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Create([Bind("Id,Code,CustomerName,Phone,Address,Email,TotalAmount,Quantity,TypePayment,CustomerId,Status,CreatedBy,CreatedDate,ModifiedDate,Modifiedby")] Order order)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        _context.Add(order);
+        //        await _context.SaveChangesAsync();
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    return View(order);
+        //}
 
         // GET: Admin/Orders/Edit/5
         public async Task<IActionResult> Edit(int? id)

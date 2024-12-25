@@ -38,7 +38,13 @@
                                 <td>@item.Name</td>
                                 <td>
                                     <a href="/admin/role/edit/@item.Id" class="btn btn-primary">Sửa</a>
-                                    <a href="/admin/role/delete/@item.Id" class="btn btn-danger">Xóa</a>
+                                    @* <a href="/admin/role/delete/@item.Id" class="btn btn-danger">Xóa</a> *@
+                                    <form asp-action="Delete" asp-route-id="@item.Id" method="post" style="display:inline;">
+                                        <button type="submit" class="btn btn-danger"
+                                                onclick="return confirm('Bạn có chắc muốn xóa quyền này không?');">
+                                            Xóa
+                                        </button>
+                                    </form>
                                 </td>
                             </tr>
                             i++;

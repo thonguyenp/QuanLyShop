@@ -1,41 +1,56 @@
-﻿@model IEnumerable<QuanLyShop.Models.EF.Product>
-
+﻿@model IPagedList<QuanLyShop.Models.EF.Product>
+@using X.PagedList
+@using X.PagedList.Mvc.Core
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    int stt = (Model.PageNumber - 1) * Model.PageSize + 1;
+
 }
 
 <h1>Index</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">
+        <button type="submit" class="btn btn-primary">Create New</button>
+    </a>
 </p>
-<table class="table">
+
+<form method="get" action="">
+    <div class="input-group mb-3">
+        <input type="text" name="txtSearch" class="form-control" placeholder="Nhập Thông Tin" value="@ViewBag.txtSearch" />
+        <button class="btn btn-outline-primary" type="submit">Tìm kiếm</button>
+    </div>
+</form>
+<table class="table" bgcolor="white">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Title)
+                STT
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ProductCategory)
+                Title
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Quantity)
+                ProductCategory
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Price)
+                Quantity
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CreatedDate)
+                Price
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IsActive)
+                CreatedDate
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IsHome)
+                IsActive
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IsSale)
+                IsHome
+            </th>
+            <th>
+                IsSale
             </th>
             <th>
                 Img Default
@@ -47,6 +62,9 @@
         {
             var defaultImage = item.ProductImage?.FirstOrDefault(x => x.IsDefault)?.Image ?? "default-image.jpg"; // Fallback nếu không tìm thấy hình ảnh.
             <tr>
+                <td>
+                    @stt
+                </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Title)
                 </td>
@@ -75,11 +93,33 @@
                     <img src="@defaultImage" alt="Product Image" style="max-width: 100px; max-height: 100px;" />
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    <a asp-action="Edit" asp-route-id="@item.Id">
+                        <button type="submit" class="btn btn-primary">Edit</button>
+                    </a> 
+                    <a asp-action="Details" asp-route-id="@item.Id">
+                        <button type="submit" class="btn btn-success">Detail</button>
+                    </a> 
+                    <a asp-action="Delete" asp-route-id="@item.Id">
+                         <button type="submit" class="btn btn-danger">Delete</button>
+                    </a>
                 </td>
             </tr>
+            { stt++; }
         }
     </tbody>
 </table>
+
+<div>
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page, pageSize = ViewBag.pageSize, txtSearch = ViewBag.txtSearch }),
+            new PagedListRenderOptions
+    {
+        DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+        DisplayLinkToNextPage = PagedListDisplayMode.Always,
+        DisplayLinkToFirstPage = PagedListDisplayMode.Never,
+        DisplayLinkToLastPage = PagedListDisplayMode.Never,
+        LinkToPreviousPageFormat = "«",
+        LinkToNextPageFormat = "»",
+        ContainerDivClasses = new[] { "pagination" },
+    }
+            )
+</div>

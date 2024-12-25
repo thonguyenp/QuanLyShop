@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using QuanLyShop.Models;
 using QuanLyShop.Models.EF;
+using X.PagedList.Extensions;
 
 namespace QuanLyShop.Areas.Admin.Controllers
 {
@@ -24,10 +25,28 @@ namespace QuanLyShop.Areas.Admin.Controllers
         }
 
         // GET: Admin/News
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string txtSearch, int page = 1, int pageSize = 5)
         {
-            var appDbContext = _context.News.Include(n => n.Category);
-            return View(await appDbContext.OrderByDescending(x => x.Id).ToListAsync());
+            // Lấy danh sách các bài viết, sắp xếp giảm dần theo Id
+            var items = _context.News.AsQueryable();
+
+            // Tìm kiếm nếu có từ khóa
+            if (!string.IsNullOrEmpty(txtSearch))
+            {
+                items = items.Where(x => x.Alias.Contains(txtSearch) || x.Title.Contains(txtSearch));
+            }
+
+            // Sắp xếp và chuyển đổi thành danh sách
+            var appDbContext = await items.OrderByDescending(x => x.Id).ToListAsync();
+
+            // Phân trang
+            var pageList = appDbContext.ToPagedList(page, pageSize);
+
+            // Truyền từ khóa tìm kiếm hiện tại vào ViewBag
+            ViewBag.txtSearch = txtSearch;
+            ViewBag.pageSize = pageSize;
+
+            return View(pageList);
         }
 
         // GET: Admin/News/Details/5

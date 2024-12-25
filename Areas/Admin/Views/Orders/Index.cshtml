@@ -10,14 +10,25 @@
 
 <h1>Index</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+@* <p>
+    <a asp-action="Create">
+        <button type="submit" class="btn btn-primary">Create New</button>
+    </a>
+</p> *@
+<form method="get" action="">
+    <div class="input-group mb-3">
+        <input type="text" name="txtSearch" class="form-control" placeholder="Nhập Tên/Email/SDT" value="@ViewBag.txtSearch" />
+        <button class="btn btn-outline-primary" type="submit">Tìm kiếm</button>
+    </div>
+</form>
 <table class="table">
     <thead>
         <tr>
             <th>
-               Code
+                STT
+            </th>
+            <th>
+                Code
             </th>
             <th>
                 CustomerName
@@ -41,46 +52,59 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Code)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CustomerName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Phone)
-            </td>
-            
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            
-            <td>
-                @Html.DisplayFor(modelItem => item.TotalAmount)
-            </td>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @stt
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Code)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CustomerName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Phone)
+                </td>
 
-            @*TypePayment == 1 tức là Dùng COD, 2 là trả bằng thẻ trước*@
-            <td>@(item.TypePayment == 1 ? "Chờ thanh toán" : "Đã thanh toán")</td>
-            
-            <td>
-                @Html.DisplayFor(modelItem => item.CreatedDate)
-            </td>
-            
-            <td>
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a> |
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="ViewProduct" asp-route-id="@item.Id">Xem chi tiết</a>
-            </td>
-        </tr>
-}
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.TotalAmount)
+                </td>
+
+                @*TypePayment == 1 tức là Dùng COD, 2 là trả bằng thẻ trước*@
+                <td>@(item.TypePayment == 1 ? "Chờ thanh toán" : "Đã thanh toán")</td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedDate)
+                </td>
+
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.Id">
+                        <button type="submit" class="btn btn-primary">Detail</button>
+                    </a>
+                    <a asp-action="Delete" asp-route-id="@item.Id">
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </a>
+                    <a asp-action="Edit" asp-route-id="@item.Id">
+                        <button type="submit" class="btn btn-success">Edit</button>
+                    </a>
+                    <a asp-action="ViewProduct" asp-route-id="@item.Id">
+                        <button type="submit" class="btn btn-warning">Chi Tiết</button>
+                    </a>
+                </td>
+            </tr>
+            { stt++; }
+        }
     </tbody>
 </table>
 
 <div>
-    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }),
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page, pageSize = ViewBag.pageSize, txtSearch = ViewBag.txtSearch }),
             new PagedListRenderOptions
     {
         DisplayLinkToPreviousPage = PagedListDisplayMode.Always,

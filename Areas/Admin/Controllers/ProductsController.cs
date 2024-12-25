@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using QuanLyShop.Models;
 using QuanLyShop.Models.EF;
+using X.PagedList.Extensions;
 
 namespace QuanLyShop.Areas.Admin.Controllers
 {
@@ -23,12 +24,28 @@ namespace QuanLyShop.Areas.Admin.Controllers
         }
 
         // GET: Admin/Products
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string txtSearch, string sort, int page = 1, int pageSize = 4)
         {
-            var appDbContext = _context.Products.
-                Include(p => p.ProductCategory).
-                Include(p => p.ProductImage);
-            return View(await appDbContext.ToListAsync());
+            // Lấy danh sách các bài viết, sắp xếp giảm dần theo Id
+            var items = _context.Products
+               .Include(p => p.ProductImage)
+                .Include(p => p.ProductCategory).AsQueryable();
+
+            // Tìm kiếm nếu có từ khóa
+            if (!string.IsNullOrEmpty(txtSearch))
+            {
+                items = items.Where(x => x.Alias.Contains(txtSearch) || x.Title.Contains(txtSearch));
+            }
+            // Sắp xếp và chuyển đổi thành danh sách
+            var appDbContext = await items.ToListAsync();
+
+            // Phân trang
+            var pageList = appDbContext.ToPagedList(page, pageSize);
+
+            // Truyền từ khóa tìm kiếm hiện tại vào ViewBag
+            ViewBag.txtSearch = txtSearch;
+            ViewBag.pageSize = pageSize;
+            return View(pageList);
         }
 
         // GET: Admin/Products/Details/5
@@ -110,6 +127,7 @@ namespace QuanLyShop.Areas.Admin.Controllers
 
             if (ModelState.IsValid)
             {
+                product.Alias = Models.Common.Filter.FilterChar(product.Title);
                 try
                 {
                     _context.Update(product);

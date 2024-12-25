@@ -24,7 +24,7 @@ namespace QuanLyShop.Areas.Admin.Controllers
         }
 
         // GET: Admin/ProductImages
-        public async Task<IActionResult> Index(string txtSearch, int page = 1, int pageSize = 5)
+        public async Task<IActionResult> Index(string txtSearch, int page = 1, int pageSize = 10)
         {
             // Lấy danh sách các ProductImage, bao gồm thông tin Product liên quan
             var items = _context.ProductImages

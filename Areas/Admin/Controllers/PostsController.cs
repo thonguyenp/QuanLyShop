@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CKSource.CKFinder.Connector.Core.Nodes;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -78,10 +79,32 @@ namespace QuanLyShop.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,Alias,Description,Detail,Image,CategoryId,SeoTitle,SeoDescription,SeoKeywords,IsActive,CreatedBy,CreatedDate,ModifiedDate,Modifiedby")] Posts posts)
+        public async Task<IActionResult> Create([Bind("Id,Title,Alias,Description,Detail,Image,CategoryId,SeoTitle,SeoDescription,SeoKeywords,IsActive,CreatedBy,CreatedDate,ModifiedDate,Modifiedby")] Posts posts, IFormFile ImageFile)
         {
             if (ModelState.IsValid)
             {
+                if (ImageFile != null && ImageFile.Length > 0)
+                {
+                    // Đường dẫn lưu file
+                    var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Uploads");
+                    if (!Directory.Exists(uploadsFolder))
+                    {
+                        Directory.CreateDirectory(uploadsFolder);
+                    }
+
+                    // Tạo tên file duy nhất
+                    var fileName = Guid.NewGuid() + Path.GetExtension(ImageFile.FileName);
+                    var filePath = Path.Combine(uploadsFolder, fileName);
+
+                    // Lưu file lên server
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await ImageFile.CopyToAsync(stream);
+                    }
+
+                    // Lưu đường dẫn file vào cơ sở dữ liệu
+                    posts.Image = $"/Uploads/{fileName}";
+                }
                 posts.CreatedDate = DateTime.Now;
                 posts.ModifiedDate = DateTime.Now;
                 //Chuyển title tiếng việt có dấu thành alias (tiếng việt không dấu)
