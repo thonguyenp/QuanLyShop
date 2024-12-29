@@ -73,11 +73,10 @@ namespace QuanLyShop.Areas.Admin.Controllers
                     return View(model);
                 }
 
-                var user = new ApplicationUser
+                var user = new IdentityUser
                 {
                     UserName = model.UserName,
                     Email = model.Email,
-                    Fullname = model.FullName,
                     PhoneNumber = model.Phone
                 };
 

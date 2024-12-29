@@ -60,7 +60,7 @@ namespace QuanLyShop.Controllers
                     return View(model); // Trả về view với lỗi
                 }
 
-                var user = new ApplicationUser
+                var user = new IdentityUser
                 {
                     UserName = model.Email,
                     Email = model.Email,
@@ -259,7 +259,6 @@ namespace QuanLyShop.Controllers
             var item = new CreateAccountViewModel
             {
                 Email = user.Email,
-                FullName = user.Email,
                 Phone = user.PhoneNumber,
                 UserName = user.UserName
             };

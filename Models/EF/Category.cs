@@ -25,7 +25,7 @@ namespace QuanLyShop.Models.EF
         public string Description { get; set; }
 
         [StringLength(150)]
-        public string SeoTitle { get; set; }// seo tu khoa cho google
+        public string SeoTitle { get; set; }
         [StringLength(250)]
         public string SeoDescription { get; set; }
         [StringLength(150)]

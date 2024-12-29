@@ -64,8 +64,6 @@ namespace QuanLyShop.Models
     {
         [Required]
         public string UserName { get; set; }
-        [Required]
-        public string FullName { get; set; }
 
         public string Phone { get; set; }
 
