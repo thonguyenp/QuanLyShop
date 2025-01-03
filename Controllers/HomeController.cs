@@ -25,7 +25,5 @@ namespace QuanLyShop.Controllers
 				ToList();
             return View(items);
 		}
-
-
     }
 }
